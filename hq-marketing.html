@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>NFSOP GPS</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700" rel="stylesheet">
+		<link rel="stylesheet" href="css/flickity.css?v=1.0">
+		<link rel="stylesheet" href="css/style.css?v=1.0">
+		<link rel="stylesheet" href="css/font-awesome.css">
+
+</head>
+<body class="left-sidebar">
+
+
+<div id="target">
+	<div class="container">
+		<div class="header">
+			<div class="navigation-search">
+				<div class="nav-search">
+
+					<input class="site-search" type="text" placeholder="Search the Site">
+
+				</div>
+				<div class="navigation">
+					<ul>
+						<li><a href="">HQ Marketing</a></li>
+						<li><a href="">Customer Marketing</a></li>
+						<li><a href="">SME Engagement</a></li>
+						<li><a href="">STAR</a></li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="logo">
+				<a href="/">
+					<img src="img/nfsop-logo.png" width=496 height=58/>
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="banner">
+		<div class="banner-text container">
+			HQ Marketing
+		</div>
+	</div>
+
+	<div class="subpage-hero" v-bind:class="{ 'collapsed-hero': !showHero }">
+		<div class="subpage-hero-content">
+			<div class="subpage-hero-header">
+				<div class="subpage-hero-hide-show" v-on:click="showHero = !showHero">
+
+					<div class="info-text-container">
+						<span  v-bind:class="{ 'invisible': !showHero }">Hide Introduction</span>
+						<span v-cloak v-bind:class="{ 'invisible': showHero }">Show Introduction</span>
+					</div>
+
+
+					<i
+						style="width:24px;display:inline-block"
+						class="fa fa-2x fa-chevron-circle-down"
+						aria-hidden="true"
+						v-bind:class="{ 'upside-down': showHero }"
+					>
+					</i>
+				</div>
+
+				<div class="subpage-hero-title" v-bind:class="{ 'invisible': !showHero }">
+					Introduction
+				</div>
+
+			</div>
+			<div class="subpage-hero-callout" v-bind:class="{ 'invisible': !showHero }">
+
+				<div class="callout-buttons">
+					<a class="black-button">
+						<i>at the</i> KO LAB
+					</a>
+					<span class="or-text">OR</span>
+					<a class="black-button">
+						ELSEWHERE
+					</a>
+				</div>
+				<div class="need-help">
+					<a href="">Need help deciding?</a>
+				</div>
+
+			</div>
+			<p class="subpage-hero-copy" v-bind:class="{ 'invisible': !showHero }">
+				Vivamus eget ante bibendum arcu vehicula ultricies. Integer venenatis mattis nisl, vitae pulvinar dui tempor. Ut eleifend libero sed neque rhoncus consequat. Maecenas tincidunt, augue et rutrum condimentum, libero lectus mattis orci, ut commodo. Vivamus eget ante bibendum arcu vehicula ultricies. Integer venenatis mattis nisl, vitae pulvinar dui tempor. Ut eleifend libero sed neque rhoncus consequat. Vivamus eget ante bibendum arcu vehicula ultricies. Integer venenatis mattis nisl, vitae pulvinar dui tempor. Ut eleifend libero sed neque rhoncus mattis el consequat. Maecenas tincidunt, augue et rutrum condimentum, libero lectus mattis orconsequat.
+			</p>
+		</div>
+	</div>
+
+	<div class="container container2">
+
+
+
+		<div class="primary-section">
+			<div class="main-column">
+				<div class="marketing-directory">
+					ok.
+				</div>
+			</div><!-- end main column -->
+			<div class="sidebar-column">
+
+				<div class="sidebar-search">
+					<div class="search-button-fa fa-2x">
+						<i class="fa fa-search" aria-hidden="true"></i>
+					</div>
+					<input v-model="searchQuery" placeholder="SEARCH" type="text" class='search-field'>
+				</div>
+				<div class="sidebar-filters">
+					<div class="filter-box" v-for="(group,groupName) in s.filters">
+						<div class="filter-toggle-control">
+							<div class="filter-arrow">
+								<i style="width:24px;display:inline-block" aria-hidden="true" class="fa fa-chevron-circle-down"></i>
+							</div>
+							<div class="filter-title">
+								{{groupName}}
+							</div>
+						</div>
+						<ul>
+							<li
+								v-for="(filterData,filterName) in group.items"
+								v-on:click="filterData.active = !filterData.active"
+							>
+
+								<img v-if="filterData.active" src="img/check-box-checked.png" width=18 class="check-img">
+								<img v-else src="img/check-box.png" width=18 class="check-img">
+								<span class="filter-item">{{filterName}}</span>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div><!-- end container -->
+
+
+
+	<div class="footer">
+		<div class="footer-main">
+			<div class="footer-content">
+				<table>
+					<tr>
+						<td class="footer-col-1">
+							<img src="img/white-logo-241.png" width=241>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.
+							</p>
+
+						</td>
+						<td class="footer-col-2">
+							<h3><span class="italic-header">helpful</span> LINKS</h3>
+							<ul>
+								<li v-for="(i,index) in s.footerLinks"><a :href="i.url">{{i.name}}</a></li>
+							</ul>
+						<td class="footer-col-3">
+							<h3><span class="italic-header">recent</span> NEWS</h3>
+							<div class="footer-news-item" v-for="(i,index) in s.footerNews">
+								<a :href="i.url">{{i.title}}</a><br>
+								<span class="footer-news-date">{{i.date}}</span>
+							</div>
+						</td>
+						<td>
+
+						</td>
+
+					</tr>
+
+				</table>
+
+			</div>
+
+		</div>
+		<div class="footer-copyright">
+			<div class="footer-content">
+				<div class="studios-logo">site created by <img src="img/purple-studios.png" height=20></div>
+				<div>2017 © The Coca-Cola Company</div>
+			</div>
+		</div>
+	</div><!--end div class=footer -->
+
+</div><!--end div id=home -->
+
+<!-- ************************************************************************************ -->
+<!-- **********************************  SCRIPTS  *************************************** -->
+<!-- **********************************  SCRIPTS  *************************************** -->
+<!-- **********************************  SCRIPTS  *************************************** -->
+<!-- ************************************************************************************ -->
+
+	<script src="js/vue.js"></script>
+	<script src="js/underscore.js"></script>
+	<script src="js/vue-router-2.0.1.js"></script>
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/tweenjs-0.6.2.combined.js"></script>
+	<script src="js/jquery.color-2.1.2.js"></script>
+	<script src="js/js.cookie.js"></script>
+	<script src="js/flickity.pkgd.min.js"></script>
+<!-- ---------------------------------------------- -->
+	<script src="js/data.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/doc-library.js"></script>
+
+</body>
+</html>
