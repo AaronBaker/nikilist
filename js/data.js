@@ -161,6 +161,8 @@ var s = {
   filters: {
     "Programs" : {
       open: true,
+      maxHeight: "300px",
+      currentHeight: "300px",
       items: {
         "Cheeseburgers" : {active: false},
         "Fries" : {active: false},
@@ -171,6 +173,8 @@ var s = {
     },
     "Beverages" : {
       open: false,
+      maxHeight: "300px",
+      currentHeight: "25px",
       items: {
         "Coca-Cola" : {active: false},
         "Diet Coke" : {active: false},
@@ -181,6 +185,8 @@ var s = {
     },
     "Partners" : {
       open: false,
+      maxHeight: "700px",
+      currentHeight: "25px",
       items: {
         "McDonalds" : {active: false},
         "Burger King" : {active: false},
@@ -238,5 +244,81 @@ var s = {
       tags: ["News"],
       url: "http://www.google.com"
     }
-  ]
+  ],
+  favorites: [
+    "asdf8765g",
+    "asd4339bhr5vfg",
+    "asdf9874rrdf6g"
+
+
+  ],
+  documents: {
+    folderPath: [
+      {name: "HQ Marketing",url:"/hq-marketing"},
+      {name: "Fanta",url:"/hq-marketing/fanta"},
+      {name: "Plan-O-Brand",url:"/hq-marketing/fanta/plan-0-brand"},
+
+    ],
+    files: [
+      {
+        id: "asdfgbg",
+        type: "folder",
+        name: "Special Files",
+        date: "April 2, 2017",
+        url: "http://www.google.com"
+      },
+      {
+        id: "asdf5ggtt",
+        type: "folder",
+        name: "Amazing Files",
+        date: "April 20, 2017",
+        url: "http://www.google.com"
+      },
+      {
+        id: "asdf234g",
+        type: "folder",
+        name: "Absurdly Useful Files",
+        date: "May 5, 2017",
+        url: "http://www.google.com"
+      },
+      {
+        id: "a111su654dfg",
+        type: "file",
+        name: "Splacky Corbun.pdf",
+        date: "May 2, 2017",
+        url: "http://www.google.com/1"
+      },
+      {
+        id: "asdf8765g",
+        type: "file",
+        name: "Snortuga Flancy Port.xlsx",
+        date: "May 5, 2017",
+        url: "http://www.google.com/2"
+      },
+      {
+        id: "asdf9874rrdf6g",
+        type: "file",
+        name: "Lorem Ipsum.pdf",
+        date: "May 25, 2017",
+        url: "http://www.google.com/3"
+      },
+      {
+        id: "asd4339bhr5vfg",
+        type: "file",
+        name: "Dolor Emit.pdf",
+        date: "June 5, 2017",
+        url: "http://www.google.com/4"
+      },
+      {
+        id: "asdf7766654g",
+        type: "file",
+        name: "Coca-Cola.pdf",
+        date: "December 23, 2017",
+        url: "http://www.google.com/5"
+      }
+
+
+    ]
+  }
+
 };
