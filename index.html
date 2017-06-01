@@ -1,246 +1,58 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>NFSOP GPS</title>
+		<title>NikiList</title>
 
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700" rel="stylesheet">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/style.css?v=1.0">
-		<link rel="stylesheet" href="css/flickity.css?v=1.0">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link rel="apple-touch-icon" href="img/icon.png">
+
 </head>
 <body class="index">
 
+	<div id="todo">
 
-<div id="target">
-	<div class="container">
-		<div class="header">
-			<div class="navigation-search">
-				<div class="nav-search">
 
-					<input class="site-search" type="text" placeholder="Search the Site">
-
+		<div class="controls-container">
+			<form v-on:submit.prevent="addTodo">
+				<div class="input-container">
+		    	<input class="todo-input" type="text" v-model="newTodo.text" placeholder="Add Something!" v-on:click.stop/>
 				</div>
-				<div class="navigation">
-					<ul>
-						<li><a href="">HQ Marketing</a></li>
-						<li><a href="">Customer Marketing</a></li>
-						<li><a href="">SME Engagement</a></li>
-						<li><a href="">STAR</a></li>
-					</ul>
+				<div class="category-buttons">
+					<div
+						v-bind:style="{backgroundColor:category.color}"
+						class="category-button"
+						v-for="category in categories"
+						v-on:touchstart="setCategory(category.name)"
+						v-bind:class="{ selected:newTodo.category == category.name }"
+					>
+					{{category.name}}
+					</div>
 				</div>
-
-			</div>
-			<div class="logo">
-				<a href="/">
-					<img src="img/nfsop-logo.png" width=496 height=58/>
-				</a>
-			</div>
-		</div>
-		<div class="content">
-			<div class="main-carousel">
-				<div
-					class="carousel-cell hero-carousel"
-					v-for="(slide,index) in s.slides"
-					v-bind:style="{backgroundImage: 'url(img/' + slide.img + ')' }"
-				>
-				<div class="hero-text" v-cloak>
-
-						<h1>{{slide.title}}</h1>
-						<div class="hero-body">
-							{{slide.body}}
-						</div>
-
+				<div class="submit-button" v-on:touchstart="addTodo">
+					ADD TO LIST
 				</div>
-				</div>
-			</div><!-- END CAROUSEL -->
-
-			<div class="primary-section">
-				<div class="sidebar-column">
-					<div class='sidebar-button-box sidebar-item'>
-						<a style="display:block;height:56px;" href="" v-on:mouseover="docButtonHover = !docButtonHover" v-on:mouseout="docButtonHover = !docButtonHover">
-							<img v-if="!docButtonHover" src="img/doc-archive-button.png" width="299">
-							<img v-if="docButtonHover" src="img/doc-archive-button-red.png" width="299">
-						</a>
-					</div>
-
-					<div class='sidebar-item tab-box'>
-						<ul class="sidebar-tabs">
-							<li
-								class="sidebar-tab"
-								v-for="(i,index) in s.sidebarTabs"
-								v-bind:class="{ selected: i.selected }"
-								v-on:click="selectTab(index)"
-							>
-									{{i.name}}
-							</li>
-						</ul>
-
-						<div class="news-content sidebar-tab-content" v-if="s.sidebarTabs[0].selected">
-							<table class="news-items">
-								<tr v-for="(i,index) in s.news">
-									<td class="icon-cell">
-										<img v-if="i.tags[0] == 'Customer Win'" src="img/customer-win-icon.png" width=35>
-										<img v-if="i.tags[0] == 'Recognition'" src="img/recognition-icon.png" width=35>
-										<img v-if="i.tags[0] == 'News'" src="img/news-icon.png" width=35>
-										<img v-if="!i.tags[0]" src="img/news-icon.png" width=35>
-									</td>
-									<td class="info-cell">
-										<div class="news-item-date">
-											{{i.date}}
-										</div>
-										<div class="news-item-title">
-											<a :href="i.url">{{i.title}}</a>
-										</div>
-										<div class="news-item-tags">
-											<span class="news-tag" v-for="(tag,index) in i.tags" >{{tag}}</span>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<a href="http://www.google.com" class="action-button">
-								More News
-							</a>
-						</div>
-
-
-						<div class="events-content sidebar-tab-content" v-if="s.sidebarTabs[1].selected">
-							<table class="news-items">
-								<tr v-for="(i,index) in s.events">
-									<td class="icon-cell">
-										<img src="img/event-icon.png" width=35>
-									</td>
-									<td class="info-cell">
-										<div class="news-item-date">
-											{{i.date}}
-										</div>
-										<div class="news-item-title">
-											<a :href="i.url">{{i.title}}</a>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<a href="http://www.google.com" class="action-button">
-								More Events
-							</a>
-						</div>
-
-
-					</div>
-
-				</div>
-				<div class="main-column">
-
-					<div class="marketing-directory">
-						<h2>Marketing Directory</h2>
-						<div class="content-box search-box">
-							<div class="box-content">
-								<div class="search-button" height=53 v-on:mouseover="searchButtonHover = !searchButtonHover" v-on:mouseout="searchButtonHover = !searchButtonHover">
-
-									<img v-if="searchButtonHover" src="img/magnify-button-red.png" width=53>
-									<img v-else src="img/magnify-button-gray.png" width=53>
-							  </div>
-								<input v-model="searchQuery" placeholder="Search by Name" type="text" class='search-field'>
-							</div>
-						</div>
-					</div>
-
-					<div class="directory-results" v-if="searchQuery">
-						<h3>Search Results</h3>
-						<table>
-
-								<tr v-for="(i,index) in s.directorySearchResults">
-									<td class="result-col-1">
-										<a :href="i.url"><img :src="i.img" width=100></a>
-									</td>
-									<td class="result-col-2">
-										<div class="directory-name">
-											<a :href="i.url">{{i.name}}</a>
-										</div>
-										<div class="directory-title">
-											{{i.title}}
-										</div>
-									</td>
-									<td class="result-col-3">
-										<a :href="i.url" class="action-button action-button-small">See Full Bio</a>
-									</td>
-								</tr>
-
-						</table>
-					</div>
-
-					<div class="engagement-team" v-if="!searchQuery">
-						<h2>Engagement Team</h2>
-						<p class="engagement-team-copy">Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. </p>
-						<ul class="team-members">
-							<li class="team-member" v-for="(i,index) in s.team">
-								<div class="team-member-img-box">
-									<img class="team-member-img" :src="i.img">
-								</div>
-								<div class="team-member-name">{{i.name}}</div>
-							</li>
-						</ul>
-					</div>
-				</div><!-- end main column -->
-
-
-			</div>
-
+		  </form>
 		</div>
 
 
-
-
-
-
-
-
-	</div><!-- end container -->
-
-
-
-	<div class="footer">
-		<div class="footer-main">
-			<div class="footer-content">
-				<table>
-					<tr>
-						<td class="footer-col-1">
-							<img src="img/white-logo-241.png" width=241>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.
-							</p>
-
-						</td>
-						<td class="footer-col-2">
-							<h3><span class="italic-header">helpful</span> LINKS</h3>
-							<ul>
-								<li v-for="(i,index) in s.footerLinks"><a :href="i.url">{{i.name}}</a></li>
-							</ul>
-						<td class="footer-col-3">
-							<h3><span class="italic-header">recent</span> NEWS</h3>
-							<div class="footer-news-item" v-for="(i,index) in s.footerNews">
-								<a :href="i.url">{{i.title}}</a><br>
-								<span class="footer-news-date">{{i.date}}</span>
-							</div>
-						</td>
-						<td>
-
-						</td>
-
-					</tr>
-
-				</table>
-
-			</div>
-
+		<div class="list-container">
+			<ul class="todo-list">
+		    <li v-for="(todo,index) in todos" v-bind:class="{checked:todo.checked}">
+					<span v-on:touchstart="toggleCheck(todo,index)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
+					<span v-on:touchstart="toggleCheck(todo,index)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
+					<span class="item-name">{{todo.text}} - {{todo.category}}</span>
+					<span v-on:touchstart="removeTodo(index)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+				</li>
+		  </ul>
 		</div>
-		<div class="footer-copyright">
-			<div class="footer-content">
-				<div class="studios-logo">site created by <img src="img/purple-studios.png" height=20></div>
-				<div>2017 © The Coca-Cola Company</div>
-			</div>
-		</div>
-	</div><!--end div class=footer -->
 
-</div><!--end div id=home -->
+
+	</div>
 
 <!-- ************************************************************************************ -->
 <!-- **********************************  SCRIPTS  *************************************** -->
@@ -249,6 +61,7 @@
 <!-- ************************************************************************************ -->
 
 	<script src="js/vue.js"></script>
+	<script src="js/gauge.min.js"></script>
 	<script src="js/underscore.js"></script>
 	<script src="js/vue-router-2.0.1.js"></script>
 	<script src="js/jquery-2.1.0.min.js"></script>
@@ -256,11 +69,10 @@
 	<script src="js/jquery.color-2.1.2.js"></script>
 	<script src="js/js.cookie.js"></script>
 	<script src="js/flickity.pkgd.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
 <!-- ---------------------------------------------- -->
 
-	<script src="js/data.js"></script>
-	<script src="js/main.js"></script>
 	<script src="js/index.js"></script>
 
 </body>

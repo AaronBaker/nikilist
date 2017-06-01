@@ -1,83 +1,110 @@
-  var homepage = new Vue({
-  el: '#target',
-  data: function(){
+// Firebase config
 
-    return {
-      s:s,//s is for app State
-      docButtonHover: false,
-      searchButtonHover: false,
-      searchQuery: null
-    }
+Vue.config.devtools = true;
+
+var config = {
+  apiKey: "AIzaSyD6z5l6ok8JEOUYVnO1VqUn6g-iFU2pJtc",
+  authDomain: "nikilist-1cab2.firebaseapp.com",
+  databaseURL: "https://nikilist-1cab2.firebaseio.com",
+  projectId: "nikilist-1cab2",
+  storageBucket: "nikilist-1cab2.appspot.com",
+  messagingSenderId: "846412664063"
+};
+
+console.log("init1");
+
+// Firebase intialise
+firebase.initializeApp(config);
+
+console.log("init2");
+
+// Set Todos firebase object
+var Todos = firebase.database().ref('/todos');
+
+// Watch for value changes on Todos, set todoList.todos property as the value
+Todos.on('value', function(snapshot) {
+
+  console.log("init3");
+  todoList.todos = snapshot.val();
+
+  todoList.groupedTodos = _.groupBy(todoList.todos, function(item){ return item.category });
+})
+
+var TodoHistory = firebase.database().ref('/todohistory');
+
+// Create Vue component
+var todoList = new Vue({
+  el: '#todo',
+  data: {
+    todos: [],
+    newTodo: {category:{}},
+    groupedTodos: {},
+    categories:[
+      {name:"Produce",color:"#8BC34A"},
+      {name:"Organic",color:"#03A9F4"},
+      {name:"Baking",color:"#673AB7"},
+      {name:"Breakfast",color:"#FF5722"},
+      {name:"Cans",color:"#607D8B"},
+      {name:"Snacks",color:"#3F51B5"},
+      {name:"Meat",color:"#f44336"},
+      {name:"Dairy",color:"#FF9800"},
+      {name:"Frozen",color:"#00BCD4"}
+    ],
 
   },
+  created: function(){
+
+
+
+  },
+
   mounted: function() {
 
-    console.log("mounted");
+    $('.todo-input').on("touchstart",function(){  $('.todo-input').focus();  });
 
-    var elem = document.querySelector('.main-carousel');
-    var flkty = new Flickity( elem, {
-      cellAlign: 'left',
-      wrapAround: true,
-      contain: true
-    });
-
-    console.log("thing");
-    //animate the search (WHY AM I DOING THIS)
-
-    startPlaceholderFadeSequence()
-    setInterval(function(){
-
-      console.log("interval start");
-
-      startPlaceholderFadeSequence()
-
-    }, 9005);
-
-  },
-  updated: function() {
-
-    console.log("updated");
-
-    var elem = document.querySelector('.main-carousel');
-    var flkty = new Flickity( elem, {
-      // options
-      cellAlign: 'left',
-      contain: true
-    });
 
   },
   methods: {
-    selectTab: function(tabIndex){
-      $.each(s.sidebarTabs,function(index,tab){
-        tab.selected = false;
-      });
-      s.sidebarTabs[tabIndex].selected = true;
+    setCategory: function(categoryName){
+
+
+      this.newTodo.category = categoryName;
+      $('.todo-input').focus();
+    },
+    toggleCheck: function(todo,id){
+
+
+      todo.checked = !todo.checked;
+      Todos.child(id).set(todo);
+
+    },
+
+    // Push new post in to Todos
+    addTodo: function() {
+
+
+      $('.todo-input').blur();
+
+      this.newTodo.checked = 0;
+
+      if (this.newTodo.category.length > 0) {
+        //do nothing
+      } else {
+        this.newTodo.category = "Dairy";
+      }
+
+
+      Todos.push(this.newTodo);
+      TodoHistory.push(this.newTodo);
+
+
+      this.newTodo.text = '';
+      this.newTodo.category = {};
+
+    },
+    // Remove child based on key - firebase function
+    removeTodo: function(key) {
+      Todos.child(key).remove()
     }
   }
-});
-
-
-function startPlaceholderFadeSequence() {
-  setTimeout(function(){
-    $(".search-field").addClass("invisible-placeholder");
-  },2500);
-  setTimeout(function(){
-    $(".search-field").attr("placeholder","Search by Title");
-    $(".search-field").removeClass("invisible-placeholder");
-  },3000);
-  setTimeout(function(){
-    $(".search-field").addClass("invisible-placeholder");
-  },5500);
-  setTimeout(function(){
-    $(".search-field").attr("placeholder","Search by Customer Portfolio");
-    $(".search-field").removeClass("invisible-placeholder");
-  },6000);
-  setTimeout(function(){
-    $(".search-field").addClass("invisible-placeholder");
-  },8500);
-  setTimeout(function(){
-    $(".search-field").attr("placeholder","Search by Name");
-    $(".search-field").removeClass("invisible-placeholder");
-    console.log("sequence end");
-  },9000);
-}
+})
