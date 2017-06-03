@@ -3,6 +3,17 @@
 /********************** GLOBAL *****************************/
 
 
+[v-cloak] {
+  display: none;
+}
+
+[v-cloak].v-cloak-hide {
+  display: block;
+}
+
+.v-cloak-hide {
+  display: none;
+}
 
 
 
@@ -19,6 +30,16 @@ body {
 
   background-color:#eee;
 
+}
+
+.controls-container {
+  transition: all 0.5s ease;
+  height: 35px;
+overflow: hidden;
+}
+
+.controls-container.controls-open {
+  height: 244px;
 }
 
 .category-button {
@@ -40,7 +61,7 @@ body {
 }
 
 .list-container {
-  padding:10px;
+
 }
 
 .check-icon {
@@ -67,8 +88,18 @@ ul.todo-list {
 
 .todo-list li {
   list-style-type: none;
-  margin-bottom:5px;
+  padding-bottom:5px;
+  padding-top:5px;
   font-size: 16px;
+  padding-left:10px
+}
+
+.todo-list li:first-child {
+  padding-top:5px;
+}
+
+.todo-list li:nth-child(even) {
+  background-color:white;
 }
 
 .todo-list li.checked {
@@ -79,16 +110,72 @@ ul.todo-list {
   text-decoration: line-through;
 }
 
+
+.fa-times-circle {
+
+  padding-left:8px;
+  vertical-align: baseline;
+
+}
 .submit-button {
   width:100%;
   padding:10px 0px;
   font-weight: bold;
   font-size:18px;
   color:white;
-  background-color:black;
+
   text-align: center;
+  background-color:gray;
+
+  /*transition: all 0.2s ease;*/
 }
 
+
+
+.submit-button.active {
+  background-color:black;
+}
+
+.submit-button.fadeItOut,
+.submit-button.fadeItOut.active  {
+  background-color:red;
+  /*transition: all 1.0s ease;*/
+}
+
+.submit-button.red-background {
+  background-color: red;
+}
+
+
+.group-header {
+  color:white;
+  font-weight: 600;
+  padding:5px;
+  font-size: 14px;
+
+}
+
+.color-changing {
+  transition: all 1.0s ease;
+}
+
+.no-items-message {
+  text-align: center;
+  padding:10px;
+}
+
+.add-and-stay-container {
+  position: relative;
+}
+
+.add-and-stay {
+  position: absolute;
+  /* float: right; */
+  color: white;
+  font-size: 27px;
+  right: 10px;
+  z-index: 53412;
+}
 
 @media (min-width: 600px) {
   #todo {

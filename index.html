@@ -5,6 +5,7 @@
 
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700" rel="stylesheet">
 		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/animate.min.css">
 		<link rel="stylesheet" href="css/style.css?v=1.0">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -17,39 +18,82 @@
 	<div id="todo">
 
 
-		<div class="controls-container">
+		<div class="controls-container" v-bind:class="{'controls-open':controlsOpen}">
 			<form v-on:submit.prevent="addTodo">
 				<div class="input-container">
-		    	<input class="todo-input" type="text" v-model="newTodo.text" placeholder="Add Something!" v-on:click.stop/>
+		    	<input class="todo-input" type="text" v-model="newTodo.text" placeholder="Add Something!" v-on:click.stop="controlsOpen = true"/>
 				</div>
-				<div class="category-buttons">
+
+				<div class="category-buttons" v-cloak>
 					<div
 						v-bind:style="{backgroundColor:category.color}"
 						class="category-button"
 						v-for="category in categories"
+						v-if="!category.hidden"
 						v-on:touchstart="setCategory(category.name)"
 						v-bind:class="{ selected:newTodo.category == category.name }"
 					>
 					{{category.name}}
 					</div>
 				</div>
-				<div class="submit-button" v-on:touchstart="addTodo">
+				<div class="add-and-stay-container">
+					<div class="add-and-stay">
+						<i class="fa fa-arrow-up" aria-hidden="true" v-on:touchstart="addTodo(true)"></i>
+					</div>
+				</div>
+				<div v-bind:class=" {'active': newTodo.text, 'color-changing': colorChanging, 'pulse': colorChanging, 'red-background':redBackground } " class="submit-button animated" v-on:touchstart="addTodo(false)">
 					ADD TO LIST
 				</div>
+
 		  </form>
 		</div>
 
-
 		<div class="list-container">
-			<ul class="todo-list">
-		    <li v-for="(todo,index) in todos" v-bind:class="{checked:todo.checked}">
-					<span v-on:touchstart="toggleCheck(todo,index)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
-					<span v-on:touchstart="toggleCheck(todo,index)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
-					<span class="item-name">{{todo.text}} - {{todo.category}}</span>
-					<span v-on:touchstart="removeTodo(index)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
-				</li>
-		  </ul>
+			<div class="list-group" v-for="(category,index) in categories" v-if="todos && todos[category.name]">
+				<div class="group-header" v-bind:style="{backgroundColor:category.color}">{{ category.name }}</div>
+				<ul class="todo-list">
+			    <li v-for="(todo,index) in todos[category.name]" v-bind:class="{checked:todo.checked}">
+						<span v-on:touchstart="toggleCheck(todo,index,groupName)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
+						<span v-on:touchstart="toggleCheck(todo,index,groupName)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
+						<span class="item-name">{{todo.text}}</span>
+						<span v-on:touchstart="removeTodo(groupName,index)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+					</li>
+			  </ul>
+			</div>
+			<div class="no-items-message" v-if="!todos">
+				You have no items on your list!
+			</div>
 		</div>
+
+		<!-- <div class="list-container">
+			<div class="list-group" v-for="(group,groupName) in todos">
+				<div class="group-header" v-bind:style="{backgroundColor:categoriesByName[groupName].color}">{{groupName}}</div>
+				<ul class="todo-list">
+			    <li v-for="(todo,index) in group" v-bind:class="{checked:todo.checked}">
+						<span v-on:touchstart="toggleCheck(todo,index,groupName)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
+						<span v-on:touchstart="toggleCheck(todo,index,groupName)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
+						<span class="item-name">{{todo.text}}</span>
+						<span v-on:touchstart="removeTodo(groupName,index)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+					</li>
+			  </ul>
+			</div>
+		</div> -->
+
+		<!-- <div class="list-container">
+			<div class="list-group" v-for="(group,groupName) in groupedTodos">
+				<div class="group-header" v-bind:style="{backgroundColor:categoriesByName[groupName].color}">{{groupName}}</div>
+				<ul class="todo-list">
+			    <li v-for="(todo,index) in group" v-bind:class="{checked:todo.checked}">
+						<span v-on:touchstart="toggleCheck(todo,index)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
+						<span v-on:touchstart="toggleCheck(todo,index)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
+						<span class="item-name">{{todo.text}}</span>
+						<span v-on:touchstart="removeTodo(index)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+					</li>
+			  </ul>
+			</div>
+		</div> -->
+
+
 
 
 	</div>

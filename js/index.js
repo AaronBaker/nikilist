@@ -11,23 +11,18 @@ var config = {
   messagingSenderId: "846412664063"
 };
 
-console.log("init1");
-
 // Firebase intialise
 firebase.initializeApp(config);
-
-console.log("init2");
-
 // Set Todos firebase object
 var Todos = firebase.database().ref('/todos');
-
 // Watch for value changes on Todos, set todoList.todos property as the value
 Todos.on('value', function(snapshot) {
-
-  console.log("init3");
+  console.log("FIREBASE UPDATE");
   todoList.todos = snapshot.val();
 
-  todoList.groupedTodos = _.groupBy(todoList.todos, function(item){ return item.category });
+
+  updateGroups();
+  localStorage.setItem("todos", JSON.stringify( todoList.todos ) );
 })
 
 var TodoHistory = firebase.database().ref('/todohistory');
@@ -37,7 +32,7 @@ var todoList = new Vue({
   el: '#todo',
   data: {
     todos: [],
-    newTodo: {category:{}},
+    newTodo: {category:{},text:null},
     groupedTodos: {},
     categories:[
       {name:"Produce",color:"#8BC34A"},
@@ -45,17 +40,37 @@ var todoList = new Vue({
       {name:"Baking",color:"#673AB7"},
       {name:"Breakfast",color:"#FF5722"},
       {name:"Cans",color:"#607D8B"},
+      {name:"Other",color:"#607D8B",hidden:true},
       {name:"Snacks",color:"#3F51B5"},
       {name:"Meat",color:"#f44336"},
       {name:"Dairy",color:"#FF9800"},
       {name:"Frozen",color:"#00BCD4"}
     ],
+    categoriesByName: {},
+    colorChanging:false,
+    redBackground:false,
+    controlsOpen:false,
 
   },
   created: function(){
 
+    console.log("created");
+    this.todos = JSON.parse (localStorage.getItem("todos"));
+
+    this.categoriesByName = _.indexBy(this.categories,"name");
+
+  },
+
+  updated:function(){
 
 
+    console.log("updated");
+
+
+
+
+
+    localStorage.setItem("todos", JSON.stringify( todoList.todos ) );
   },
 
   mounted: function() {
@@ -71,40 +86,89 @@ var todoList = new Vue({
       this.newTodo.category = categoryName;
       $('.todo-input').focus();
     },
-    toggleCheck: function(todo,id){
+    toggleCheck: function(todo,id,categoryName){
 
 
       todo.checked = !todo.checked;
-      Todos.child(id).set(todo);
-
+      Todos.child(categoryName).child(id).set(todo);
+      //updateGroups();
     },
 
     // Push new post in to Todos
-    addTodo: function() {
+    addTodo: function(stayHere) {
 
 
-      $('.todo-input').blur();
+      if (this.newTodo.text && this.newTodo.text.length > 0){
 
-      this.newTodo.checked = 0;
 
-      if (this.newTodo.category.length > 0) {
-        //do nothing
-      } else {
-        this.newTodo.category = "Dairy";
+
+
+
+
+        this.colorChanging = true;
+
+        var todoThis = this;
+
+
+
+        if (!stayHere) {
+          todoThis.controlsOpen = false;
+        }
+
+
+        setTimeout(function(){
+
+          todoThis.colorChanging = false;
+
+        },1000);
+
+
+        //Do the stuff
+        $('.todo-input').blur();
+
+        //Todos are unchecked by default
+        this.newTodo.checked = 0;
+
+        //If no category is checked, set category to Other
+        if (this.newTodo.category.length < 0 || typeof this.newTodo.category != "string") {
+          this.newTodo.category = "Other";
+        }
+
+        //Push the todo as a child of the category
+        Todos.child(this.newTodo.category).push(this.newTodo);
+        //Also added to history list. May be used for autocomplete later
+        TodoHistory.push(this.newTodo);
+
+        //Clear the newTodo so that we can start another
+        this.newTodo.text = null;
+        this.newTodo.category = {};
+
+
+
       }
 
 
-      Todos.push(this.newTodo);
-      TodoHistory.push(this.newTodo);
-
-
-      this.newTodo.text = '';
-      this.newTodo.category = {};
 
     },
     // Remove child based on key - firebase function
-    removeTodo: function(key) {
-      Todos.child(key).remove()
+    removeTodo: function(category,key) {
+      Todos.child(category).child(key).remove();
+
+
     }
   }
-})
+});
+
+
+function updateGroups() {
+  //THIS LINE DOES NOT PRESERVE FIREBASE IDs!!!!
+
+  var newGroupTodo = {};
+
+
+  //update the group object////////////////
+  var newGroupTodo = _.groupBy(todoList.todos, function(item){ return item.category });
+  todoList.groupedTodos = newGroupTodo;
+  /////////////////////////////////////////
+
+}
