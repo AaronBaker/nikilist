@@ -39,7 +39,7 @@ overflow: hidden;
 }
 
 .controls-container.controls-open {
-  height: 244px;
+  height: 251px;
 }
 
 .category-button {
@@ -62,6 +62,14 @@ overflow: hidden;
 
 .list-container {
 
+}
+
+.x-button {
+  float: right;
+padding-right: 10px;
+padding-top: 3px;
+padding-left: 6px;
+padding-bottom: 3px;
 }
 
 .check-icon {

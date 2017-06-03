@@ -82,7 +82,7 @@ var todoList = new Vue({
   methods: {
     setCategory: function(categoryName){
 
-
+      console.log(categoryName);
       this.newTodo.category = categoryName;
       $('.todo-input').focus();
     },
@@ -96,7 +96,8 @@ var todoList = new Vue({
 
     // Push new post in to Todos
     addTodo: function(stayHere) {
-
+      $('.todo-input').focus();
+      $('.todo-input').trigger("touchstart");
 
       if (this.newTodo.text && this.newTodo.text.length > 0){
 
@@ -113,8 +114,10 @@ var todoList = new Vue({
 
         if (!stayHere) {
           todoThis.controlsOpen = false;
+        } else {
+          $('.todo-input').focus();
         }
-
+        $('.todo-input').focus();
 
         setTimeout(function(){
 

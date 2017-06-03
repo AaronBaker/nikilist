@@ -38,10 +38,14 @@
 				</div>
 				<div class="add-and-stay-container">
 					<div class="add-and-stay">
-						<i class="fa fa-arrow-up" aria-hidden="true" v-on:touchstart="addTodo(true)"></i>
+						<i class="fa fa-arrow-up" aria-hidden="true" v-on:touchstart.stop="addTodo(true)"></i>
 					</div>
 				</div>
-				<div v-bind:class=" {'active': newTodo.text, 'color-changing': colorChanging, 'pulse': colorChanging, 'red-background':redBackground } " class="submit-button animated" v-on:touchstart="addTodo(false)">
+				<div
+					v-bind:class=" {'active': newTodo.text, 'color-changing': colorChanging, 'pulse': colorChanging, 'red-background':redBackground } "
+					class="submit-button animated"
+					v-on:touchstart.stop="addTodo(false)"
+				>
 					ADD TO LIST
 				</div>
 
@@ -56,7 +60,7 @@
 						<span v-on:touchstart="toggleCheck(todo,index,groupName)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
 						<span v-on:touchstart="toggleCheck(todo,index,groupName)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
 						<span class="item-name">{{todo.text}}</span>
-						<span v-on:touchstart="removeTodo(groupName,index)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+						<span v-on:touchstart="removeTodo(groupName,index)" class="x-button"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
 					</li>
 			  </ul>
 			</div>
