@@ -82,6 +82,11 @@ var todoList = new Vue({
 
   },
   methods: {
+    clearInput: function(){
+
+      this.newTodo.text = null;
+      this.newTodo.category = {};      
+    },
     setCategory: function(categoryName){
 
       console.log(categoryName);
@@ -162,7 +167,7 @@ var todoList = new Vue({
         $.each(category,function(key,todo){
 
           if (todo.checked == true){
-    
+
             Todos.child(categoryName).child(key).remove();
           }
 

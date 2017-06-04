@@ -183,8 +183,16 @@ ul.todo-list {
   padding:10px;
 }
 
-.add-and-stay-container {
+.add-and-stay-container,
+.clear-input-container {
   position: relative;
+}
+
+.clear-input {
+  position: absolute;
+  right:0px;
+  padding:6px 10px 9px 15px;
+
 }
 
 .add-and-stay {

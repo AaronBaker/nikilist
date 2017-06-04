@@ -21,6 +21,11 @@
 		<div class="controls-container" v-bind:class="{'controls-open':controlsOpen}">
 			<form v-on:submit.prevent="addTodo">
 				<div class="input-container">
+					<div class="clear-input-container">
+						<div class="clear-input" v-on:touchstart="clearInput">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</div>
+					</div>
 		    	<input class="todo-input" type="text" v-model="newTodo.text" placeholder="Add Something!" v-on:touchstart.stop="controlsOpen = true"/>
 				</div>
 
