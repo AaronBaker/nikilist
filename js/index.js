@@ -86,7 +86,8 @@ var todoList = new Vue({
 
       this.newTodo.text = null;
       this.newTodo.category = {};
-      this.controlsOpen = false; 
+      this.controlsOpen = false;
+      $(".todo-input").blur();
     },
     setCategory: function(categoryName){
 
