@@ -44,7 +44,8 @@
 				<div
 					v-bind:class=" {'active': newTodo.text, 'color-changing': colorChanging, 'pulse': colorChanging, 'red-background':redBackground } "
 					class="submit-button animated"
-					v-on:touchstart.stop="addTodo(false)"
+					id="submit-button"
+					v-on:touchstart="addTodo(false)"
 				>
 					ADD TO LIST
 				</div>
@@ -57,16 +58,17 @@
 				<div class="group-header" v-bind:style="{backgroundColor:category.color}">{{ category.name }}</div>
 				<ul class="todo-list">
 			    <li v-for="(todo,index) in todos[category.name]" v-bind:class="{checked:todo.checked}">
-						<span v-on:touchstart="toggleCheck(todo,index,groupName)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
-						<span v-on:touchstart="toggleCheck(todo,index,groupName)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
+						<span v-on:touchstart="toggleCheck(todo,index,category.name)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
+						<span v-on:touchstart="toggleCheck(todo,index,category.name)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
 						<span class="item-name">{{todo.text}}</span>
-						<span v-on:touchstart="removeTodo(groupName,index)" class="x-button"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+						<span v-on:touchstart="removeTodo(category.name,index)" class="x-button"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
 					</li>
 			  </ul>
 			</div>
 			<div class="no-items-message" v-if="!todos">
 				You have no items on your list!
 			</div>
+			<div v-if="todos" class="submit-button clear-button" v-on:touchstart="clearChecked">Clear Checked Items</div>
 		</div>
 
 		<!-- <div class="list-container">

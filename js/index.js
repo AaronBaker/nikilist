@@ -67,8 +67,10 @@ var todoList = new Vue({
     console.log("updated");
 
 
+    //$('.todo-input').focus();
 
-
+    $(".add-and-stay").on("touchstart",function(){ $('.todo-input').focus(); });
+    $(".add-and-stay").on("click",function(){ $('.todo-input').focus(); });
 
     localStorage.setItem("todos", JSON.stringify( todoList.todos ) );
   },
@@ -96,21 +98,14 @@ var todoList = new Vue({
 
     // Push new post in to Todos
     addTodo: function(stayHere) {
-      $('.todo-input').focus();
-      $('.todo-input').trigger("touchstart");
+
 
       if (this.newTodo.text && this.newTodo.text.length > 0){
-
-
-
-
 
 
         this.colorChanging = true;
 
         var todoThis = this;
-
-
 
         if (!stayHere) {
           todoThis.controlsOpen = false;
@@ -155,7 +150,26 @@ var todoList = new Vue({
     },
     // Remove child based on key - firebase function
     removeTodo: function(category,key) {
+
       Todos.child(category).child(key).remove();
+
+
+    },
+    clearChecked: function(){
+
+
+      $.each(this.todos,function(categoryName,category){
+        $.each(category,function(key,todo){
+
+          if (todo.checked == true){
+    
+            Todos.child(categoryName).child(key).remove();
+          }
+
+
+
+        });
+      });
 
 
     }
