@@ -22,7 +22,7 @@
 			<form v-on:submit.prevent="addTodo">
 				<div class="input-container">
 					<div class="clear-input-container">
-						<div class="clear-input" v-on:touchstart="clearInput">
+						<div v-if="controlsOpen" class="clear-input" v-on:touchstart="clearInput">
 							<i class="fa fa-times" aria-hidden="true"></i>
 						</div>
 					</div>
