@@ -51,10 +51,12 @@ var todoList = new Vue({
       {name:"Walmart",color:"#03A9F4"},
 
       {name:"Amazon",color:"#8BC34A"},
-      {name:"Other",color:"#607D8B",hidden:true},
+
 
       {name:"Costco",color:"#673AB7"},
       {name:"Trader Joe's",color:"#FF5722"},
+
+      {name:"Other",color:"#607D8B",hidden:true},
     ],
     categoriesByName: {},
     colorChanging:false,
