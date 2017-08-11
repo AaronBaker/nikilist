@@ -45,10 +45,10 @@ overflow: hidden;
 .category-button {
   color: white;
   width: 33.33%;
-  height: 15px;
+  height: 16px;
   display: inline-block;
   text-align: center;
-  padding: 20px 0px;
+  padding: 35px 0px;
 }
 
 .category-button:hover{

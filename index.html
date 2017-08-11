@@ -66,7 +66,7 @@
 						<span v-on:touchstart="toggleCheck(todo,index,category.name)" class="check-icon" v-if="todo.checked"><i class="fa fa-2x fa-check-square-o" aria-hidden="true"></i></span>
 						<span v-on:touchstart="toggleCheck(todo,index,category.name)"  class="check-icon" v-else><i class="fa fa-2x fa-square-o" aria-hidden="true"></i></span>
 						<span class="item-name">{{todo.text}}</span>
-						<span v-on:touchend="removeTodo(category.name,index)" class="x-button"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+						<!-- <span v-on:touchend="removeTodo(category.name,index)" class="x-button"><i class="fa fa-times-circle" aria-hidden="true"></i></span> -->
 					</li>
 			  </ul>
 			</div>
