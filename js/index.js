@@ -46,9 +46,10 @@ var todoList = new Vue({
       // {name:"Dairy",color:"#FF9800"},
       // {name:"Frozen",color:"#00BCD4"}
 
+      {name:"Kroger",color:"#3F51B5"},
       {name:"Target",color:"#f44336"},
       {name:"Walmart",color:"#03A9F4"},
-      {name:"Kroger",color:"#3F51B5"},
+
       {name:"Amazon",color:"#8BC34A"},
       {name:"Other",color:"#607D8B",hidden:true},
 
